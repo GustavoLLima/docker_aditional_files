@@ -29,6 +29,7 @@ services:
   #     - talker
 
   modelo1:
+    container_name: modelo1
     build:
       context: "./"
       dockerfile: Dockerfile_NETLOGO
@@ -43,6 +44,7 @@ services:
       - talker
 
   talker:
+    container_name: talker
     build:
       context: "./"
       dockerfile: Dockerfile_ROS
@@ -53,6 +55,7 @@ services:
       - listener
 
   listener:
+    container_name: listener
     build:
       context: "./"
       dockerfile: Dockerfile_ROS
