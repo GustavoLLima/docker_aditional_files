@@ -82,7 +82,8 @@ def generate_input_file(parameters):
 
     #open('config.txt', 'w').close()
 
-    with open("/teste/config.txt", "w") as output:
+    # with open("/teste/config.txt", "w") as output:
+    with open(config_file, "w") as output:
         for x in conf_parameters:
 
             x[0] = x[0].replace('"', '')
@@ -103,7 +104,8 @@ def generate_input_file(parameters):
             #print (g)
             output.write("%s\n" % (g))
 
-    open('/teste/export-ticks.txt', 'w').close()
+    # open('/teste/export-ticks.txt', 'w').close()
+    open(export_file, 'w').close()
 
 def remove_space(filename):
     # filename = "C:/Users/Gustavo/Desktop/export-ticks.txt"
@@ -305,13 +307,16 @@ def fitness(agents):
                 generate_input_file(agent.list)
                 #print ("-")
                 execute_model()
-                os.remove("/teste/config.txt")
+
+                delete_file(config_file)
+                #os.remove("/teste/config.txt")
                 #print ("-")
 
-                filename = "/teste/export-ticks.txt"
+                #filename = "/teste/export-ticks.txt"
 
-                remove_space(filename)
-                f = open(filename, "r")
+
+                remove_space(export_file)
+                f = open(export_file, "r")
 
                 #agent.fitness = (int(f.read()))
 
@@ -541,13 +546,14 @@ def fitness(agents):
                 generate_input_file(agent.list)
                 #print ("-")
                 execute_model()
-                os.remove("/teste/config.txt")
+                delete_file("/teste/config.txt")
+                #os.remove("/teste/config.txt")
                 #print ("-")
 
-                filename = "/teste/export-ticks.txt"
+                #filename = "/teste/export-ticks.txt"
 
-                remove_space(filename)
-                f = open(filename, "r")
+                remove_space(export_file)
+                f = open(export_file, "r")
 
                 #agent.fitness = (int(f.read()))
 
@@ -714,6 +720,12 @@ def mutation(agents):
 
     return agents
 
+def delete_file(filename):
+    if os.path.exists(filename):
+        os.remove(filename)
+
+config_file = "/teste/config.txt"
+export_file = "/teste/export-ticks.txt"
 
 if __name__ == '__main__':
 
@@ -787,7 +799,6 @@ if __name__ == '__main__':
     population = 5
     generations = 2
 
-
     best = ga()
 
     print ("********************")
@@ -795,6 +806,9 @@ if __name__ == '__main__':
     print ("********************")
     print("Best of All Agents: ")
     print(best)
+
+    delete_file(config_file)
+    delete_file(export_file)
 
 
     # ------------PARTE DO SOCKET------------------------
