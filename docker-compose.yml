@@ -1,0 +1,119 @@
+version: '3'
+
+services:
+  # modelo1:
+  #   build:
+  #     context: "./"
+  #     dockerfile: Dockerfile_NETLOGO
+  #   command: tail -f /dev/null
+  #   networks:
+  #     - my_network
+  #   volumes:
+  #     - ./teste:/teste
+
+  # python_client:
+  #   build:
+  #     context: "./"
+  #     dockerfile: Dockerfile_PYTHON1
+  #   #command: python /teste/python/container4.py
+  #   #command: python /teste/python/container1.py
+  #   #command: python /teste/python/client.py
+  #   #command: python /teste/python/50send.py
+  #   command: tail -f /dev/null
+  #   volumes:
+  #     - ./teste:/teste
+  #   networks:
+  #     - my_network
+  #   depends_on:
+  #     - listener
+  #     - talker
+
+  modelo1:
+    build:
+      context: "./"
+      dockerfile: Dockerfile_NETLOGO
+    # command: tail -f /dev/null
+    command: python /teste/11ga_netlogo.py
+    networks:
+      - my_network
+    volumes:
+      - ./teste:/teste
+    depends_on:
+      - listener
+      - talker
+
+  talker:
+    build:
+      context: "./"
+      dockerfile: Dockerfile_ROS
+    command: ros2 run codigo_gustavo talker
+    networks:
+      - my_network
+    depends_on:
+      - listener
+
+  listener:
+    build:
+      context: "./"
+      dockerfile: Dockerfile_ROS
+    environment:
+      - "PYTHONUNBUFFERED=1"
+    command: ros2 run codigo_gustavo listener
+    networks:
+      - my_network
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+
+  # modelo1:
+  #   build:
+  #     context: "./"
+  #     dockerfile: Dockerfile_NETLOGO
+  #   #command: tail -f /dev/null
+  #   command: ./netlogo/netlogo-headless.sh --model /teste/WS2.nlogo --experiment experiment1 --spreadsheet /teste/teste2.csv
+  #   volumes:
+  #     - ./teste:/teste
+
+  # python_client:
+  #   build:
+  #     context: "./"
+  #     dockerfile: Dockerfile_PYTHON1
+  #   #command: python /teste/python/container4.py
+  #   #command: python /teste/python/container1.py
+  #   #command: python /teste/python/client.py
+  #   #command: python /teste/python/50send.py
+  #   command: tail -f /dev/null
+  #   volumes:
+  #     - ./teste:/teste
+  #   networks:
+  #     - my_network
+  #   depends_on:
+  #     - listener
+  #     - talker
+  #   # depends_on:
+  #   #   - talker
+  #   # deploy:
+  #   #   mode: replicated
+  #   #   replicas: 10
+  #   # restart: always
+
+  # python_server:
+  #   build:
+  #     context: "./"
+  #     dockerfile: Dockerfile_PYTHON2
+  #   #command: python /teste/python/container3.py
+  #   #command: python /teste/python/container2.py
+  #   #command: python /teste/python/server.py
+  #   command: python /teste/python/50receive.py
+  #   #command: tail -f /dev/null
+  #   volumes:
+  #     - ./teste:/teste
+  #   networks:
+  #     - my_network
+
+volumes:
+  teste:
+
+networks:
+  my_network:
+    driver: "bridge"
