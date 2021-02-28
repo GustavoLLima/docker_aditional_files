@@ -64,9 +64,9 @@ services:
     command: ros2 run codigo_gustavo listener
     networks:
       - my_network
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
+    deploy:
+      mode: replicated
+      replicas: 2
 
   # modelo1:
   #   build:
